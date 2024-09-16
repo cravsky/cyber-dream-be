@@ -8,8 +8,11 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(cors({
-    origin: 'http://localhost:5173/' // Zezwolenie na połączenia z localhost:5173
-}));
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Dostosuj do metod, które używasz
+    allowedHeaders: ['Content-Type', 'Authorization'], // Jeśli używasz innych nagłówków, dodaj je tutaj
+    // credentials: true // Jeśli potrzebujesz przesyłać ciasteczka/uwierzytelnienie
+  }));
 
 const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
 
