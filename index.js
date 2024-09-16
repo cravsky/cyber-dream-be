@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(cors({
-    origin: 'http://localhost:5173' // Zezwolenie na połączenia z localhost:5173
+    origin: 'http://localhost:5173/' // Zezwolenie na połączenia z localhost:5173
 }));
 
 const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
