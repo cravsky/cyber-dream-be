@@ -12,7 +12,8 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Dostosuj do metod, które używasz
     allowedHeaders: ['Content-Type', 'Authorization'], // Jeśli używasz innych nagłówków, dodaj je tutaj
     // credentials: true // Jeśli potrzebujesz przesyłać ciasteczka/uwierzytelnienie
-  }));
+}));
+app.options('*', cors());
 
 const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
 
