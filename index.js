@@ -7,17 +7,28 @@ require('dotenv').config();
 const app = express()
 app.use(express.json())
 
-const corsOptions = {
-    origin: 'https://cravsky.github.io/cyber-dream/', // Replace with the actual GitHub Pages URL
-    methods: ['POST', 'GET', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-};
-app.use(cors(corsOptions))
+function setCorsHeaders(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+}
 
+app.use(setCorsHeaders);
+
+
+// const corsOptions = {
+//     origin: 'https://cravsky.github.io/cyber-dream/', // Replace with the actual GitHub Pages URL
+//     methods: ['POST', 'GET', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true
+// };
+// app.use(cors(corsOptions))
+app.use(cors())
 
 const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
 
+app.options('*', cors())
 app.post('/api', async (req, res) => {
     const text = req.body.text || "I was flying in the sky";
 
