@@ -6,7 +6,14 @@ require('dotenv').config();
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+
+const corsOptions = {
+    origin: 'https://cravsky.github.io/cyber-dream/', // Replace with the actual GitHub Pages URL
+    methods: ['POST', 'GET', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+};
+app.use(cors(corsOptions))
 
 
 const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
