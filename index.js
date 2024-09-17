@@ -30,25 +30,33 @@ const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
 
 app.options('*', cors())
 app.post('/api', async (req, res) => {
-    const text = req.body.text || "I was flying in the sky";
 
-    const completion = await openai.chat.completions.create({
-        messages: [{
-            "role": "system",
-            "content": "You are a fortune teller. Provide a dream interpretation. No bullet points. No ambiguity. Let your answer be a narrative. Finish with a quote. Predict what the future holds."
-        },
-        {
-            "role": "user",
-            "content": text
-        }],
-        model: "gpt-4o-mini",
-        max_tokens: 2048,
-    })
+    try {
+        const text = req.body.text || "I was flying in the sky";
 
-    console.log(completion)
-    console.log(completion.choices[0].message.content)
+        const completion = await openai.chat.completions.create({
+            messages: [{
+                "role": "system",
+                "content": "You are a fortune teller. Provide a dream interpretation. No bullet points. No ambiguity. Let your answer be a narrative. Finish with a quote. Predict what the future holds."
+            },
+            {
+                "role": "user",
+                "content": text
+            }],
+            model: "gpt-4o-mini",
+            max_tokens: 2048,
+        })
 
-    res.send({ response: completion.choices[0].message.content })
+        console.log(completion)
+        console.log(completion.choices[0].message.content)
+
+        res.send({ response: completion.choices[0].message.content })
+    } catch (error) {
+        console.error('Error calling OpenAI API:', error);
+
+        // Send an error response if the API call fails
+        res.status(500).send({ error: "Error communicating with OpenAI API" });
+    }
 
 })
 
